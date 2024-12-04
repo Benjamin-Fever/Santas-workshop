@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://c6snmuuaj8jhp"]
+[gd_scene load_steps=8 format=3 uid="uid://c6snmuuaj8jhp"]
 
 [ext_resource type="PackedScene" uid="uid://ded34vcbchrby" path="res://entities/player/player.tscn" id="1_8lge6"]
 [ext_resource type="PackedScene" uid="uid://drj2a7prigaek" path="res://objects/counter/counter.tscn" id="2_e75vp"]
+[ext_resource type="PackedScene" uid="uid://32w66goxga3l" path="res://objects/storage/storage.tscn" id="3_rbufo"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lss3f"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -29,7 +30,7 @@ shadow_enabled = true
 environment = SubResource("Environment_m0roc")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 2.84262, 3.74774)
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 5.84262, 4.74774)
 
 [node name="Player" parent="." instance=ExtResource("1_8lge6")]
 
@@ -38,3 +39,6 @@ mesh = SubResource("PlaneMesh_0rd8e")
 
 [node name="Counter" parent="." instance=ExtResource("2_e75vp")]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, -3)
+
+[node name="Storage" parent="." instance=ExtResource("3_rbufo")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 2, 0, -3)

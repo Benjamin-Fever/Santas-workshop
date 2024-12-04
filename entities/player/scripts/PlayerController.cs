@@ -4,14 +4,9 @@ using System;
 public partial class PlayerController : Node {
 	[Export] private CharacterBody3D characterBody;
 	[Export] private GameInput gameInput;
+	[Export] private InteractionDetector interactionDetector;
 	[Export] private float speed = 5.0f;
-	public override void _Ready() {
-		gameInput.OnInteract += OnInteract;
-	}
 
-	public override void _Process(double delta) {
-		
-	}
 
 	public override void _PhysicsProcess(double delta) {
 		HandleMovement(delta);
@@ -32,6 +27,6 @@ public partial class PlayerController : Node {
 	}
 
 	private void OnInteract() {
-		GD.Print("Interacted");
+		interactionDetector.SelectedInteractable?.Interact(GetParent());
 	}
 }

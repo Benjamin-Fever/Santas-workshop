@@ -5,7 +5,7 @@ using System;
 public partial class Interactable : Node {
 	[Signal] public delegate void OnSelectedEventHandler();
 	[Signal] public delegate void OnDeselectedEventHandler();
-	[Signal] public delegate void OnInteractedEventHandler();
+	[Signal] public delegate void OnInteractedEventHandler(Node sender);
 
 	public void Select(){
 		EmitSignal(SignalName.OnSelected);
@@ -15,7 +15,7 @@ public partial class Interactable : Node {
 		EmitSignal(SignalName.OnDeselected);
 	}
 
-	public void Interact(){
-		EmitSignal(SignalName.OnInteracted);
+	public void Interact(Node sender){
+		EmitSignal(SignalName.OnInteracted, sender);
 	}
 }

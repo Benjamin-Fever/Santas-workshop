@@ -1,25 +1,23 @@
 using Godot;
 
+[GlobalClass]
 public partial class InteractionDetector : ShapeCast3D {
-	private Interactable _selectedInteractable;
-	public override void _Ready() {
-		
-	}
-
+	public Interactable SelectedInteractable {get; private set;}
+	
 	public override void _Process(double delta) {
 		if (IsColliding()){
 			Node collider = GetCollider(0) as Node;
 			Interactable interactable = collider?.GetNodeOrNull<Interactable>("Interactable");
-			if (interactable != null &&_selectedInteractable != interactable){
-				_selectedInteractable?.Deselect();
-				_selectedInteractable = interactable;
-				_selectedInteractable.Select();
+			if (interactable != null &&SelectedInteractable != interactable){
+				SelectedInteractable?.Deselect();
+				SelectedInteractable = interactable;
+				SelectedInteractable.Select();
 			}
 
 		}
-		else if (_selectedInteractable != null){
-			_selectedInteractable?.Deselect();
-			_selectedInteractable = null;
+		else if (SelectedInteractable != null){
+			SelectedInteractable?.Deselect();
+			SelectedInteractable = null;
 		}
 	}
 }

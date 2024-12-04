@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://drj2a7prigaek"]
+
+[ext_resource type="Script" path="res://objects/Components/Interactable.cs" id="1_vxfpp"]
+[ext_resource type="Script" path="res://objects/Counter/scripts/CounterBehavour.cs" id="2_nqg4a"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_cmc8r"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2ab18"]
+
+[node name="Counter" type="StaticBody3D"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+
+[node name="Interactable" type="Node" parent="."]
+script = ExtResource("1_vxfpp")
+
+[node name="CounterBehavour" type="Node" parent="."]
+script = ExtResource("2_nqg4a")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_cmc8r")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_2ab18")
+
+[connection signal="OnDeselected" from="Interactable" to="CounterBehavour" method="OnDeselected"]
+[connection signal="OnInteracted" from="Interactable" to="CounterBehavour" method="OnInteracted"]
+[connection signal="OnSelected" from="Interactable" to="CounterBehavour" method="OnSelected"]

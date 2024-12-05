@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://fifbwqkiojx7"]
+
+[ext_resource type="PackedScene" uid="uid://bvyt5ivv5wu1u" path="res://items/buttons/buttons.tscn" id="1_a1rg1"]
+[ext_resource type="Script" path="res://items/scripts/ItemData.cs" id="1_nwp5v"]
+
+[resource]
+script = ExtResource("1_nwp5v")
+itemName = "Buttons"
+itemScene = ExtResource("1_a1rg1")

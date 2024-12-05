@@ -20,12 +20,4 @@ public partial class CounterBehavour : Node {
 			counterInventory.RemoveItem(counterItem);
 		}
 	}
-
-	private void OnSelected() {
-		GD.Print("Selected Counter");
-	}
-
-	private void OnDeselected() {
-		GD.Print("Deselected Counter");
-	}
 }

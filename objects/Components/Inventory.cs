@@ -47,4 +47,33 @@ public partial class Inventory : Node {
 		}
 		return items[index];
 	}
+
+	public void Clear() {
+		for (int i = 0; i < items.Length; i++) {
+			items[i] = null;
+		}
+		EmitSignal(SignalName.InventoryUpdated, this);
+	}
+
+	public bool IsFull() {
+		for (int i = 0; i < items.Length; i++) {
+			if (items[i] == null) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public bool IsEmpty() {
+		for (int i = 0; i < items.Length; i++) {
+			if (items[i] != null) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+    public override string ToString() {
+        return "Inventory: " + items;
+    }
 }

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://bu1yqw31a7pp8"]
+
+[ext_resource type="PackedScene" uid="uid://lfhuglb6c3mw" path="res://items/cut fabric/cut_fabric.tscn" id="1_10gwe"]
+[ext_resource type="Script" path="res://items/scripts/ItemData.cs" id="2_e6ob3"]
+
+[resource]
+script = ExtResource("2_e6ob3")
+itemName = "Cut Fabric"
+itemScene = ExtResource("1_10gwe")

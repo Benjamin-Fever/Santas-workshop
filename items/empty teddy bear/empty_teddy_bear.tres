@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://c02mufxykxqu0"]
+
+[ext_resource type="PackedScene" uid="uid://blpe0r173iilp" path="res://items/empty teddy bear/empty_teddy_bear.tscn" id="1_uj5m8"]
+[ext_resource type="Script" path="res://items/scripts/ItemData.cs" id="2_r000t"]
+
+[resource]
+script = ExtResource("2_r000t")
+itemName = "Empty Teddy Bear"
+itemScene = ExtResource("1_uj5m8")

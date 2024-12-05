@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvyt5ivv5wu1u"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_5xiyt"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.001
+
+[node name="Buttons" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.067226, 0.00686595, 0.0072028)
+mesh = SubResource("CylinderMesh_5xiyt")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0151408, 0.00686595, -0.056486)
+mesh = SubResource("CylinderMesh_5xiyt")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0536784, 0.00686595, 0.0471749)
+mesh = SubResource("CylinderMesh_5xiyt")

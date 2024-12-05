@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RecipeData" load_steps=4 format=3 uid="uid://cb4u4qloxj8fr"]
+
+[ext_resource type="Resource" uid="uid://ceaustfygv2s2" path="res://items/fabric roll/fabric_roll_data.tres" id="1_pquqr"]
+[ext_resource type="Resource" uid="uid://bu1yqw31a7pp8" path="res://items/cut fabric/cut_fabric.tres" id="2_p5irb"]
+[ext_resource type="Script" path="res://recipes/scripts/RecipeData.cs" id="3_7bkua"]
+
+[resource]
+script = ExtResource("3_7bkua")
+ingredients = Array[Object]([ExtResource("1_pquqr")])
+result = ExtResource("2_p5irb")
+timeToCraft = 1.0

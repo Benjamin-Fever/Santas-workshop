@@ -29,4 +29,8 @@ public partial class PlayerController : Node {
 	private void OnInteract() {
 		interactionDetector.SelectedInteractable?.Interact(GetParent());
 	}
+
+	private void OnAction() {
+		interactionDetector.SelectedInteractable?.PerformAction(GetParent());
+	}
 }

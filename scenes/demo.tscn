@@ -1,8 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://c6snmuuaj8jhp"]
+[gd_scene load_steps=13 format=3 uid="uid://c6snmuuaj8jhp"]
 
 [ext_resource type="PackedScene" uid="uid://ded34vcbchrby" path="res://entities/player/player.tscn" id="1_8lge6"]
 [ext_resource type="PackedScene" uid="uid://drj2a7prigaek" path="res://objects/counter/counter.tscn" id="2_e75vp"]
+[ext_resource type="PackedScene" uid="uid://bqnfvqe0h78hq" path="res://objects/cutting station/cutting_station.tscn" id="3_6v1xo"]
 [ext_resource type="PackedScene" uid="uid://32w66goxga3l" path="res://objects/storage/storage.tscn" id="3_rbufo"]
+[ext_resource type="Resource" uid="uid://ceaustfygv2s2" path="res://items/fabric roll/fabric_roll_data.tres" id="4_0wdv5"]
+[ext_resource type="Resource" uid="uid://fifbwqkiojx7" path="res://items/buttons/buttons.tres" id="6_6p8y5"]
+[ext_resource type="PackedScene" uid="uid://ugqlwfxhkeey" path="res://objects/sewing station/sewing_station.tscn" id="7_5l6r1"]
+[ext_resource type="PackedScene" uid="uid://vtdi35cdasm2" path="res://objects/stuffing machine/stuffing_machine.tscn" id="8_rirsm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lss3f"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -18,12 +23,12 @@ tonemap_mode = 2
 glow_enabled = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_0rd8e"]
-size = Vector2(15, 15)
+size = Vector2(30, 30)
 
 [node name="demo" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+transform = Transform3D(0.849865, -0.306816, 0.428478, 3.55271e-15, 0.81305, 0.582194, -0.527, -0.494786, 0.690983, 0, 4.50065, 0)
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -37,8 +42,22 @@ transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_0rd8e")
 
-[node name="Counter" parent="." instance=ExtResource("2_e75vp")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, -3)
-
 [node name="Storage" parent="." instance=ExtResource("3_rbufo")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 2, 0, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -3)
+storageItem = ExtResource("4_0wdv5")
+
+[node name="CuttingStation" parent="." instance=ExtResource("3_6v1xo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8, 0, -3)
+
+[node name="Storage2" parent="." instance=ExtResource("3_rbufo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2, 0, -3)
+storageItem = ExtResource("6_6p8y5")
+
+[node name="SewingStation" parent="." instance=ExtResource("7_5l6r1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3)
+
+[node name="Counter" parent="." instance=ExtResource("2_e75vp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, -3)
+
+[node name="StuffingMachine" parent="." instance=ExtResource("8_rirsm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7, 0, -3)

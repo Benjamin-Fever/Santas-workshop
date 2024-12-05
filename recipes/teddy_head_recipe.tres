@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="RecipeData" load_steps=5 format=3 uid="uid://c2758kf0gbuhk"]
+
+[ext_resource type="Resource" uid="uid://bu1yqw31a7pp8" path="res://items/cut fabric/cut_fabric.tres" id="1_52fn2"]
+[ext_resource type="Script" path="res://recipes/scripts/RecipeData.cs" id="1_fxb5e"]
+[ext_resource type="Resource" uid="uid://fifbwqkiojx7" path="res://items/buttons/buttons.tres" id="2_ug437"]
+[ext_resource type="Resource" uid="uid://dw76v822afra3" path="res://items/teddy head/teddy_head.tres" id="3_l2xiy"]
+
+[resource]
+script = ExtResource("1_fxb5e")
+ingredients = Array[Object]([ExtResource("1_52fn2"), ExtResource("2_ug437")])
+result = ExtResource("3_l2xiy")
+timeToCraft = 0.0

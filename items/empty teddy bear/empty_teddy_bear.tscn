@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://blpe0r173iilp"]
+
+[ext_resource type="PackedScene" uid="uid://fbjki0upumtk" path="res://items/teddy body/teddy_body.tscn" id="1_6yt3r"]
+[ext_resource type="PackedScene" uid="uid://c6bq287mchif" path="res://items/teddy head/teddy_head.tscn" id="2_jb484"]
+
+[node name="EmptyTeddyBear" type="Node3D"]
+
+[node name="TeddyBody" parent="." instance=ExtResource("1_6yt3r")]
+
+[node name="TeddyHead" parent="." instance=ExtResource("2_jb484")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.911109, 0)

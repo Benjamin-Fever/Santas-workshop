@@ -1,0 +1,46 @@
+[gd_scene load_steps=9 format=3 uid="uid://vtdi35cdasm2"]
+
+[ext_resource type="Script" path="res://objects/components/Interactable.cs" id="1_6sw1v"]
+[ext_resource type="Script" path="res://objects/components/Crafting.cs" id="2_ybwja"]
+[ext_resource type="Resource" uid="uid://bmimkkooyfg4g" path="res://recipes/teddy_recipe.tres" id="3_qst6g"]
+[ext_resource type="Script" path="res://objects/components/Inventory.cs" id="4_ttg3w"]
+[ext_resource type="Script" path="res://objects/counter/scripts/CounterBehavour.cs" id="5_6fi1j"]
+[ext_resource type="Script" path="res://common/scripts/HeldItem.cs" id="6_3bx5f"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_qsnlw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a1f2g"]
+
+[node name="StuffingMachine" type="StaticBody3D"]
+
+[node name="Interactable" type="Node" parent="."]
+script = ExtResource("1_6sw1v")
+
+[node name="Crafting" type="Node" parent="." node_paths=PackedStringArray("counterInventory")]
+script = ExtResource("2_ybwja")
+recipes = Array[Resource]([ExtResource("3_qst6g")])
+counterInventory = NodePath("../Inventory")
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("4_ttg3w")
+maxItems = 2
+
+[node name="CounterBehaviour" type="Node" parent="."]
+script = ExtResource("5_6fi1j")
+
+[node name="ItemPlacement" type="Node3D" parent="."]
+transform = Transform3D(0.666667, 0, 0, 0, 0.666667, 0, 0, 0, 0.666667, 0, 1, 0)
+script = ExtResource("6_3bx5f")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_qsnlw")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_a1f2g")
+
+[connection signal="OnActionPerfomed" from="Interactable" to="Crafting" method="Craft"]
+[connection signal="OnInteracted" from="Interactable" to="CounterBehaviour" method="OnInteracted"]
+[connection signal="InventoryUpdated" from="Inventory" to="ItemPlacement" method="OnInventoryUpdated"]

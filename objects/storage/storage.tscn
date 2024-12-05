@@ -1,37 +1,24 @@
-[gd_scene load_steps=7 format=3 uid="uid://32w66goxga3l"]
+[gd_scene load_steps=5 format=3 uid="uid://32w66goxga3l"]
 
 [ext_resource type="Script" path="res://objects/components/Interactable.cs" id="1_wt4wy"]
 [ext_resource type="Script" path="res://objects/storage/scripts/StorageBehaviour.cs" id="2_ipfje"]
-[ext_resource type="Resource" uid="uid://ceaustfygv2s2" path="res://objects/items/fabric roll/fabric_roll_data.tres" id="3_nh3jh"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_hau26"]
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_qd4eq"]
-top_radius = 0.2
-bottom_radius = 0.2
-height = 1.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8d3xt"]
 
 [node name="Storage" type="StaticBody3D"]
+script = ExtResource("2_ipfje")
 
 [node name="Interactable" type="Node" parent="."]
 script = ExtResource("1_wt4wy")
-
-[node name="StorageBehaviour" type="Node" parent="."]
-script = ExtResource("2_ipfje")
-storageItem = ExtResource("3_nh3jh")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mesh = SubResource("BoxMesh_hau26")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 1.2, 0)
-mesh = SubResource("CylinderMesh_qd4eq")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_8d3xt")
 
-[connection signal="OnInteracted" from="Interactable" to="StorageBehaviour" method="OnInteracted"]
+[connection signal="OnInteracted" from="Interactable" to="." method="OnInteracted"]

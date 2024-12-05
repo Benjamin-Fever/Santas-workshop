@@ -1,22 +1,28 @@
-[gd_scene load_steps=7 format=3 uid="uid://drj2a7prigaek"]
+[gd_scene load_steps=9 format=3 uid="uid://drj2a7prigaek"]
 
 [ext_resource type="Script" path="res://objects/components/Interactable.cs" id="1_vxfpp"]
 [ext_resource type="Script" path="res://objects/components/Inventory.cs" id="2_ik6fh"]
 [ext_resource type="Script" path="res://objects/counter/scripts/CounterBehavour.cs" id="2_nqg4a"]
+[ext_resource type="Script" path="res://objects/components/Crafting.cs" id="3_vpcje"]
 [ext_resource type="Script" path="res://common/scripts/HeldItem.cs" id="4_dlyju"]
+[ext_resource type="Resource" uid="uid://ddxcsfpu573bt" path="res://recipes/empty_teddy_recipe.tres" id="4_hq1eh"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_cmc8r"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2ab18"]
 
 [node name="Counter" type="StaticBody3D"]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 
 [node name="Interactable" type="Node" parent="."]
 script = ExtResource("1_vxfpp")
 
 [node name="Inventory" type="Node" parent="."]
 script = ExtResource("2_ik6fh")
+
+[node name="Crafting" type="Node" parent="." node_paths=PackedStringArray("counterInventory")]
+script = ExtResource("3_vpcje")
+recipes = Array[Object]([ExtResource("4_hq1eh")])
+counterInventory = NodePath("../Inventory")
 
 [node name="CounterBehaviour" type="Node" parent="."]
 script = ExtResource("2_nqg4a")
@@ -33,5 +39,6 @@ mesh = SubResource("BoxMesh_cmc8r")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_2ab18")
 
+[connection signal="OnActionPerfomed" from="Interactable" to="Crafting" method="Craft"]
 [connection signal="OnInteracted" from="Interactable" to="CounterBehaviour" method="OnInteracted"]
 [connection signal="InventoryUpdated" from="Inventory" to="ItemPlacement" method="OnInventoryUpdated"]

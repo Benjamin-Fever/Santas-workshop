@@ -6,18 +6,18 @@ using Steamworks;
 [GlobalClass]
 public partial class SteamManager : Node {
 	public static SteamManager Instance { get; private set; }
-	private static uint _appId = 480;
 
 	public SteamManager() {
 		if (Instance != null) return;
 		NativeLibrary.Load(Path.Join(AppContext.BaseDirectory, "steam_api64.dll"));
-		GD.Print(SteamAPI.IsSteamRunning());
+		
+		
 		Instance = this;
 		try {
 			if (SteamAPI.Init()) {
 				GD.Print("Steamworks initialized.");
 			} else {
-				GD.Print("Steamworks failed to initialize.");
+				GD.PrintErr("Steamworks failed to initialize.");
 			}
 		}
 		catch (Exception e) {

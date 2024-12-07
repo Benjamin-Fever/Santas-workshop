@@ -58,4 +58,5 @@ shape = SubResource("CapsuleShape3D_02fgf")
 
 [connection signal="ActionPressed" from="GameInput" to="PlayerController" method="OnAction"]
 [connection signal="InteractPressed" from="GameInput" to="PlayerController" method="OnInteract"]
+[connection signal="MoveDirection" from="GameInput" to="PlayerController" method="OnMoveDirection"]
 [connection signal="InventoryUpdated" from="Inventory" to="HeldItem" method="OnInventoryUpdated"]

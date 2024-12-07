@@ -7,25 +7,6 @@ public partial class PlayerController : Node {
 	[Export] private InteractionDetector interactionDetector;
 	[Export] private float speed = 5.0f;
 
-
-	public override void _PhysicsProcess(double delta) {
-		HandleMovement(delta);
-	}
-
-	private void HandleMovement(double delta) {
-		Vector2 inputVector = gameInput.GetMovementDirection();
-		Vector3 moveDir = new Vector3(inputVector.X, 0, inputVector.Y);
-		Vector3 velocity = moveDir * speed * (float)delta;
-		characterBody.Velocity = velocity;
-		characterBody.MoveAndSlide();
-
-		if (moveDir == Vector3.Zero) return;
-		float rotationSpeed = 10.0f;
-		Transform3D transform = characterBody.Transform;
-		transform.Basis = transform.Basis.Slerp(Basis.LookingAt(moveDir), rotationSpeed * (float)delta);
-		characterBody.Transform = transform;
-	}
-
 	private void OnInteract() {
 		interactionDetector.SelectedInteractable?.Interact(GetParent());
 	}
@@ -33,4 +14,28 @@ public partial class PlayerController : Node {
 	private void OnAction() {
 		interactionDetector.SelectedInteractable?.PerformAction(GetParent());
 	}
+
+	public void OnMoveDirection(Vector2 direction){
+		Vector3 moveDir = new Vector3(direction.X, 0, direction.Y);
+		Vector3 velocity = moveDir * speed * (float)GetProcessDeltaTime();
+		characterBody.Velocity = velocity;
+
+		
+	}
+
+	public override void _PhysicsProcess(double delta) {
+		characterBody.MoveAndSlide();
+
+		if (characterBody.Velocity.Normalized() == Vector3.Zero) return;
+		float rotationSpeed = 10.0f;
+		Transform3D transform = characterBody.Transform;
+		transform.Basis = transform.Basis.Slerp(Basis.LookingAt(characterBody.Velocity.Normalized()), rotationSpeed * (float)GetProcessDeltaTime());
+		characterBody.Transform = transform;
+	}
+
+	private void HandleMovement(double delta) {
+		
+	}
+
+	
 }

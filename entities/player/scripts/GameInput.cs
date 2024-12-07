@@ -3,6 +3,7 @@ using System;
 
 [GlobalClass]
 public partial class GameInput : Node {
+	[Signal] public delegate void MoveDirectionEventHandler(Vector2 direction);
 	[Signal] public delegate void InteractPressedEventHandler();
 	[Signal] public delegate void ActionPressedEventHandler();
 
@@ -17,6 +18,14 @@ public partial class GameInput : Node {
 		}
 		else if (@event.IsActionPressed("action")){
 			EmitSignal(SignalName.ActionPressed);
+		}
+    }
+
+	private Vector2 _prevDirection = Vector2.Zero;
+    public override void _Process(double delta) {
+		if (_prevDirection != GetMovementDirection()){
+			_prevDirection = GetMovementDirection();
+			EmitSignal(SignalName.MoveDirection, _prevDirection);
 		}
     }
 }

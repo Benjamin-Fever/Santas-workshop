@@ -6,4 +6,25 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>SantasWorkshop</RootNamespace>
   </PropertyGroup>
+    <ItemGroup>
+      <!-- Steamworks.NET -->
+      <Reference Include="Steamworks.NET, Version=20.2.0, Culture=neutral, processorArchitecture=MSIL">
+        <SpecificVersion>False</SpecificVersion>
+        <Link>Steamworks.NET.dll</Link>
+        <HintPath Condition=" '$(OS)' == 'Windows_NT' ">lib/steamworks/Windows-x64/Steamworks.NET.dll</HintPath>
+        <HintPath Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">lib/steamworks/OSX-Linux-x64/Steamworks.NET.dll</HintPath>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Reference>
+      
+      <Content Include="lib/steamworks/Windows-x64/steam_api64.dll" Condition=" '$(OS)' == 'Windows_NT' ">
+        <Link>steam_api64.dll</Link>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+
+      <Content Include="lib/steamworks/OSX-Linux-x64/steam_api.bundle/Contents/MacOS/libsteam_api.dylib" Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">
+      <Link>libsteam_api.dylib</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <!-- /Steamworks.NET -->
+    </ItemGroup>
 </Project>

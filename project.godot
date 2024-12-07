@@ -18,6 +18,10 @@ config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 
 project/assembly_name="Santas-Workshop"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/steam-multiplayer-manager/plugin.cfg")
+
 [input]
 
 move_forward={

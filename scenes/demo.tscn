@@ -1,5 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://c6snmuuaj8jhp"]
+[gd_scene load_steps=14 format=3 uid="uid://c6snmuuaj8jhp"]
 
+[ext_resource type="Script" path="res://networking/scripts/SteamManager.cs" id="1_1feb7"]
 [ext_resource type="PackedScene" uid="uid://ded34vcbchrby" path="res://entities/player/player.tscn" id="1_8lge6"]
 [ext_resource type="PackedScene" uid="uid://drj2a7prigaek" path="res://objects/counter/counter.tscn" id="2_e75vp"]
 [ext_resource type="PackedScene" uid="uid://bqnfvqe0h78hq" path="res://objects/cutting station/cutting_station.tscn" id="3_6v1xo"]
@@ -27,6 +28,9 @@ size = Vector2(30, 30)
 
 [node name="demo" type="Node3D"]
 
+[node name="SteamManager" type="Node" parent="."]
+script = ExtResource("1_1feb7")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.849865, -0.306816, 0.428478, 3.55271e-15, 0.81305, 0.582194, -0.527, -0.494786, 0.690983, 0, 4.50065, 0)
 shadow_enabled = true
@@ -38,6 +42,7 @@ environment = SubResource("Environment_m0roc")
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 5.84262, 4.74774)
 
 [node name="Player" parent="." instance=ExtResource("1_8lge6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_0rd8e")

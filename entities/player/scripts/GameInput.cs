@@ -8,15 +8,21 @@ public partial class GameInput : Node {
 	[Signal] public delegate void ActionPressedEventHandler();
 
 	public Vector2 GetMovementDirection(){
-		Vector2 direction = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
-		return direction.Normalized();
+		Vector2 direction = Input.GetVector("move_left", "move_right", "move_forward", "move_backward").Normalized();
+		return direction;
 	}
 
     public override void _UnhandledInput(InputEvent @event) {
         if (@event.IsActionPressed("interact")){
+			SteamManager.SendPlayerData(new SteamManager.PlayerInputData(){
+				inputType = SteamManager.PlayerInputData.InputType.Interact
+			});
 			EmitSignal(SignalName.InteractPressed);
 		}
 		else if (@event.IsActionPressed("action")){
+			SteamManager.SendPlayerData(new SteamManager.PlayerInputData(){
+				inputType = SteamManager.PlayerInputData.InputType.Action
+			});
 			EmitSignal(SignalName.ActionPressed);
 		}
     }
@@ -25,6 +31,10 @@ public partial class GameInput : Node {
     public override void _Process(double delta) {
 		if (_prevDirection != GetMovementDirection()){
 			_prevDirection = GetMovementDirection();
+			SteamManager.SendPlayerData(new SteamManager.PlayerInputData(){
+				inputType = SteamManager.PlayerInputData.InputType.Move,
+				direction = _prevDirection
+			});
 			EmitSignal(SignalName.MoveDirection, _prevDirection);
 		}
     }

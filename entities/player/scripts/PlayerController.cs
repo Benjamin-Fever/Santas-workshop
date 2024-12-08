@@ -19,8 +19,6 @@ public partial class PlayerController : Node {
 		Vector3 moveDir = new Vector3(direction.X, 0, direction.Y);
 		Vector3 velocity = moveDir * speed * (float)GetProcessDeltaTime();
 		characterBody.Velocity = velocity;
-
-		
 	}
 
 	public override void _PhysicsProcess(double delta) {

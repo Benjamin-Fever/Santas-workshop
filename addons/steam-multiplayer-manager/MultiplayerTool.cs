@@ -49,7 +49,7 @@ public partial class MultiplayerTool : EditorPlugin {
 
 	private void OpenSandbox() {
 		_playButton.EmitSignal("pressed");
-		StartSandboxProgram("godot --path \"C:\\Users\\gamer\\Documents\\Santas-workshop\"");
+		StartSandboxProgram("\"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Godot\\Godot Console.lnk\" --path \"C:\\Users\\gamer\\Documents\\Santas-workshop\"");
 
 	}
 	

@@ -1,0 +1,74 @@
+[gd_scene load_steps=13 format=3 uid="uid://2arge22hu2b0"]
+
+[ext_resource type="PackedScene" uid="uid://32w66goxga3l" path="res://objects/storage/storage.tscn" id="2_lek6n"]
+[ext_resource type="Resource" uid="uid://ceaustfygv2s2" path="res://items/fabric roll/fabric_roll_data.tres" id="3_jebc4"]
+[ext_resource type="Script" path="res://networking/scripts/SpawnPoint.cs" id="4_m0qtb"]
+[ext_resource type="Script" path="res://common/scripts/ToolDisplayer.cs" id="6_63ppx"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lss3f"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_ygodc"]
+sky_material = SubResource("ProceduralSkyMaterial_lss3f")
+
+[sub_resource type="Environment" id="Environment_m0roc"]
+background_mode = 2
+sky = SubResource("Sky_ygodc")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0rd8e"]
+size = Vector2(30, 30)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_xbf2y"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t2aa6"]
+transparency = 1
+albedo_color = Color(0, 0.0980392, 0.109804, 0.733333)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vilcf"]
+size = Vector3(0.475, 0.08, 0.22)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jeck2"]
+transparency = 1
+albedo_color = Color(0, 0.0980392, 0.109804, 0.733333)
+
+[node name="DemoScene" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.849865, -0.306816, 0.428478, 3.55271e-15, 0.81305, 0.582194, -0.527, -0.494786, 0.690983, 0, 4.50065, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_m0roc")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 5.84262, 4.74774)
+current = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_0rd8e")
+skeleton = NodePath("../..")
+
+[node name="Storage" parent="." instance=ExtResource("2_lek6n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+storageItem = ExtResource("3_jebc4")
+
+[node name="SpawnPoint" type="Node3D" parent="."]
+script = ExtResource("4_m0qtb")
+
+[node name="Body" type="Node3D" parent="SpawnPoint"]
+script = ExtResource("6_63ppx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SpawnPoint/Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_xbf2y")
+skeleton = NodePath("../../../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_t2aa6")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SpawnPoint/Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.669, -0.5)
+mesh = SubResource("BoxMesh_vilcf")
+skeleton = NodePath("../../../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_jeck2")

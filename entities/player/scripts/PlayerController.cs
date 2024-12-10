@@ -3,7 +3,6 @@ using System;
 
 public partial class PlayerController : Node {
 	[Export] private CharacterBody3D characterBody;
-	[Export] private GameInput gameInput;
 	[Export] private InteractionDetector interactionDetector;
 	[Export] private float speed = 5.0f;
 
@@ -23,17 +22,17 @@ public partial class PlayerController : Node {
 
 	public override void _PhysicsProcess(double delta) {
 		characterBody.MoveAndSlide();
+		
 
 		if (characterBody.Velocity.Normalized() == Vector3.Zero) return;
+		Vector3 lookDir = characterBody.Velocity.Normalized();
+		lookDir.Y = 0;
 		float rotationSpeed = 10.0f;
 		Transform3D transform = characterBody.Transform;
-		transform.Basis = transform.Basis.Slerp(Basis.LookingAt(characterBody.Velocity.Normalized()), rotationSpeed * (float)GetProcessDeltaTime());
+		transform.Basis = transform.Basis.Slerp(Basis.LookingAt(lookDir), rotationSpeed * (float)GetProcessDeltaTime());
 		characterBody.Transform = transform;
 	}
 
-	private void HandleMovement(double delta) {
-		
-	}
 
 	
 }

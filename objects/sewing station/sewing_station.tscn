@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ugqlwfxhkeey"]
+[gd_scene load_steps=12 format=3 uid="uid://ugqlwfxhkeey"]
 
 [ext_resource type="Script" path="res://objects/components/Interactable.cs" id="1_7brue"]
 [ext_resource type="Script" path="res://objects/components/Crafting.cs" id="2_1w3w2"]
@@ -6,9 +6,13 @@
 [ext_resource type="Script" path="res://objects/components/Inventory.cs" id="4_x20s5"]
 [ext_resource type="Resource" uid="uid://m0yix88a7uap" path="res://recipes/teddy_body_recipe.tres" id="4_yk7s0"]
 [ext_resource type="Script" path="res://objects/counter/scripts/CounterBehavour.cs" id="5_hacv0"]
+[ext_resource type="Resource" uid="uid://ddxcsfpu573bt" path="res://recipes/empty_teddy_recipe.tres" id="5_q41sa"]
 [ext_resource type="Script" path="res://common/scripts/HeldItem.cs" id="6_c1qji"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_qsnlw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8k8sd"]
+albedo_color = Color(1, 0.41, 0.41, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a1f2g"]
 
@@ -19,7 +23,7 @@ script = ExtResource("1_7brue")
 
 [node name="Crafting" type="Node" parent="." node_paths=PackedStringArray("counterInventory")]
 script = ExtResource("2_1w3w2")
-recipes = Array[Resource]([ExtResource("3_lljbx"), ExtResource("4_yk7s0")])
+recipes = Array[Resource]([ExtResource("3_lljbx"), ExtResource("4_yk7s0"), ExtResource("5_q41sa")])
 counterInventory = NodePath("../Inventory")
 
 [node name="Inventory" type="Node" parent="."]
@@ -37,6 +41,7 @@ script = ExtResource("6_c1qji")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mesh = SubResource("BoxMesh_qsnlw")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_8k8sd")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

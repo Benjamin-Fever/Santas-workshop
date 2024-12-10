@@ -16,11 +16,12 @@ size = Vector3(0.475, 0.08, 0.22)
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_02fgf"]
 
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 0
+platform_on_leave = 2
 
-[node name="PlayerController" type="Node" parent="." node_paths=PackedStringArray("characterBody", "gameInput", "interactionDetector")]
+[node name="PlayerController" type="Node" parent="." node_paths=PackedStringArray("characterBody", "interactionDetector")]
 script = ExtResource("1_fqtbc")
 characterBody = NodePath("..")
-gameInput = NodePath("../GameInput")
 interactionDetector = NodePath("../InteractionDetector")
 speed = 200.0
 

@@ -11,9 +11,6 @@ public partial class SteamManager : SteamNetwork {
 
 	public static SteamManager Instance;
 
-	private Dictionary<CSteamID, Node3D> networkPlayers = new Dictionary<CSteamID, Node3D>();
-	private CSteamID lobbyID;
-
 	public override void _Ready() {
 		Instance = this;
 	}
@@ -21,17 +18,23 @@ public partial class SteamManager : SteamNetwork {
     protected override void OnLobbyConnected(CSteamID lobbyID) {
 		this.lobbyID = lobbyID;
 		SceneManager.ChangeScene(gameScene);
-
-		SceneManager.SpawnEntity(playerScene, SpawnPoint.Position);
-
-		foreach (CSteamID member in GetLobbyMembers(lobbyID)) {
-			if (member == clientID) { continue; }
-			SceneManager.SpawnEntity(networkPlayerScene, SpawnPoint.Position);
-		}
+		networkPlayers.Clear();
+		networkPlayers.Add(clientID, SceneManager.SpawnEntity(playerScene, SpawnPoint.Position, SpawnPoint.Rotation));
+		
     }
 
     protected override void OnLobbyMemberConnected(CSteamID lobbyID, CSteamID memberID) {
-		networkPlayers.Add(memberID, SceneManager.SpawnEntity(networkPlayerScene, SpawnPoint.Position));
+		Vector3 spawnPoint = SpawnPoint.Position;
+		Node3D member = SceneManager.SpawnEntity(networkPlayerScene, spawnPoint, SpawnPoint.Rotation);
+		networkPlayers.Add(memberID, member);		
+
+		//BoradcastPlayerData(lobbyID);
+	}
+
+	private void BoradcastPlayerData(CSteamID lobbyID) {
+		Node3D player = networkPlayers[clientID];
+		PlayerDataPacket playerDataPacket = new PlayerDataPacket(player.GlobalPosition, player.GlobalRotation);
+		BroadcastLobbyData(lobbyID, playerDataPacket);
 	}
 
 	protected override void OnLobbyMemberDisconnected(CSteamID lobbyID, CSteamID memberID) {
@@ -41,76 +44,34 @@ public partial class SteamManager : SteamNetwork {
 		}
 	}
 
-    protected override void OnLobbyUserMsg(CSteamID lobbyID, CSteamID userID, byte[] data) {
-		if (PlayerInputData.TryParse(data, out PlayerInputData playerInput)){
-			if (userID == clientID) { return; }
-			if (!networkPlayers.ContainsKey(userID)) { return; }
-			if (playerInput.inputType == PlayerInputData.InputType.Interact) {
-				GD.Print("Interact pressed");
-				networkPlayers[userID].EmitSignal(NetworkInput.SignalName.InteractPressed);
-			}
-			else if (playerInput.inputType == PlayerInputData.InputType.Action) {
-				GD.Print("Action pressed");
-				networkPlayers[userID].EmitSignal(NetworkInput.SignalName.ActionPressed);
-			}
-			else if (playerInput.inputType == PlayerInputData.InputType.Move) {
-				GD.Print("Move direction: " + playerInput.direction);
-				GD.Print(networkPlayers[userID]);
-				Utils.TryGetComponent(networkPlayers[userID], out NetworkInput networkInput);
-				networkInput.EmitSignal(NetworkInput.SignalName.MoveDirection, playerInput.direction);
-			}
+    protected override void OnLobbyPlayerInput(CSteamID lobbyID, CSteamID userID, PlayerInputPacket playerInputPacket) {
+		if (userID == clientID) { return; }
+		Utils.TryGetComponent(networkPlayers[userID], out NetworkInput networkInput);
+		switch (playerInputPacket.GetInputType()) {
+			case PlayerInputPacket.InputType.Interact:
+				networkInput.EmitSignal(NetworkInput.SignalName.InteractPressed);
+				break;
+			case PlayerInputPacket.InputType.Action:
+				networkInput.EmitSignal(NetworkInput.SignalName.ActionPressed);
+				break;
+			case PlayerInputPacket.InputType.Move:
+				networkInput.EmitSignal(NetworkInput.SignalName.MoveDirection, playerInputPacket.GetDirection());
+				break;
 		}
+    }
+
+    protected override void OnLobbyPlayerData(CSteamID lobbyID, CSteamID userID, PlayerDataPacket playerDataPacket) {
+		if (userID == clientID) { return; }
+		Node3D networkPlayer = networkPlayers[userID];
+		networkPlayer.GlobalPosition = playerDataPacket.GetPosition();
+		networkPlayer.GlobalRotation = playerDataPacket.GetRotation();
     }
 
     public void CreateLobby() {
 		SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, 4);
 	}
 
-	public static void SendPlayerData(PlayerInputData playerInput) {
-		byte[] bytes = playerInput.ToData();
-		Instance.BroadcastLobbyData(Instance.lobbyID, bytes);
+	public static void SendPlayerData(PlayerInputPacket playerInput) {
+		Instance.BroadcastLobbyData(Instance.lobbyID, playerInput);
 	}
-
-	public struct PlayerInputData {
-		public enum InputType {
-			Move,
-			Interact,
-			Action
-		}
-
-		public InputType inputType;
-		public Vector2 direction;
-
-		public byte[] ToData() {
-        	return System.Text.Encoding.UTF8.GetBytes($"InputData,{(int)inputType},{direction.X},{direction.Y}");
-    	}
-
-		public static bool TryParse(byte[] data, out PlayerInputData playerInput) {
-			try {
-				playerInput = FromData(data);
-				return true;
-			}
-			catch {
-				playerInput = new PlayerInputData();
-				return false;
-			}
-		}
-
-		public static PlayerInputData FromData(byte[] data) {
-			string dataString = System.Text.Encoding.UTF8.GetString(data);
-			string[] dataParts = dataString.Split(',');
-			if (dataParts[0] != "InputData") {
-				throw new Exception("Invalid data type");
-			}
-
-			InputType inputType = Enum.Parse<InputType>(dataParts[1]);
-			Vector2 direction = new Vector2(float.Parse(dataParts[2]), float.Parse(dataParts[3]));
-			return new PlayerInputData(){
-				inputType = inputType,
-				direction = direction
-			};
-		}
-	}
-
-    
 }

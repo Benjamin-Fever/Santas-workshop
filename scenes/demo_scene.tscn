@@ -1,9 +1,14 @@
-[gd_scene load_steps=13 format=3 uid="uid://2arge22hu2b0"]
+[gd_scene load_steps=20 format=3 uid="uid://2arge22hu2b0"]
 
 [ext_resource type="PackedScene" uid="uid://32w66goxga3l" path="res://objects/storage/storage.tscn" id="2_lek6n"]
 [ext_resource type="Resource" uid="uid://ceaustfygv2s2" path="res://items/fabric roll/fabric_roll_data.tres" id="3_jebc4"]
 [ext_resource type="Script" path="res://networking/scripts/SpawnPoint.cs" id="4_m0qtb"]
+[ext_resource type="Resource" uid="uid://fifbwqkiojx7" path="res://items/buttons/buttons.tres" id="5_6i6lk"]
+[ext_resource type="PackedScene" uid="uid://drj2a7prigaek" path="res://objects/counter/counter.tscn" id="6_6x7tm"]
 [ext_resource type="Script" path="res://common/scripts/ToolDisplayer.cs" id="6_63ppx"]
+[ext_resource type="PackedScene" uid="uid://bqnfvqe0h78hq" path="res://objects/cutting station/cutting_station.tscn" id="7_etkws"]
+[ext_resource type="PackedScene" uid="uid://ugqlwfxhkeey" path="res://objects/sewing station/sewing_station.tscn" id="8_ax7bn"]
+[ext_resource type="PackedScene" uid="uid://vtdi35cdasm2" path="res://objects/stuffing machine/stuffing_machine.tscn" id="9_1rk8a"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lss3f"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -18,9 +23,6 @@ sky = SubResource("Sky_ygodc")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_0rd8e"]
-size = Vector2(30, 30)
-
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_xbf2y"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t2aa6"]
@@ -33,6 +35,15 @@ size = Vector3(0.475, 0.08, 0.22)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jeck2"]
 transparency = 1
 albedo_color = Color(0, 0.0980392, 0.109804, 0.733333)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0rd8e"]
+size = Vector2(30, 30)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0fvlu"]
+albedo_color = Color(0.244005, 0.512102, 0.46305, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tm1yw"]
+size = Vector3(30, 0.005, 30)
 
 [node name="DemoScene" type="Node3D"]
 
@@ -47,15 +58,8 @@ environment = SubResource("Environment_m0roc")
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 5.84262, 4.74774)
 current = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("PlaneMesh_0rd8e")
-skeleton = NodePath("../..")
-
-[node name="Storage" parent="." instance=ExtResource("2_lek6n")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
-storageItem = ExtResource("3_jebc4")
-
 [node name="SpawnPoint" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -6)
 script = ExtResource("4_m0qtb")
 
 [node name="Body" type="Node3D" parent="SpawnPoint"]
@@ -72,3 +76,53 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.669, -0.5)
 mesh = SubResource("BoxMesh_vilcf")
 skeleton = NodePath("../../../../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_jeck2")
+
+[node name="Map" type="Node3D" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="Map"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Map/Floor"]
+mesh = SubResource("PlaneMesh_0rd8e")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_0fvlu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Floor"]
+shape = SubResource("BoxShape3D_tm1yw")
+
+[node name="Storage" parent="Map" instance=ExtResource("2_lek6n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2)
+storageItem = ExtResource("3_jebc4")
+
+[node name="Storage2" parent="Map" instance=ExtResource("2_lek6n")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -2)
+storageItem = ExtResource("5_6i6lk")
+
+[node name="Counter" parent="Map" instance=ExtResource("6_6x7tm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="Counter2" parent="Map" instance=ExtResource("6_6x7tm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -2)
+
+[node name="Counter3" parent="Map" instance=ExtResource("6_6x7tm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
+
+[node name="Counter4" parent="Map" instance=ExtResource("6_6x7tm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -3)
+
+[node name="Counter5" parent="Map" instance=ExtResource("6_6x7tm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -4)
+
+[node name="Counter6" parent="Map" instance=ExtResource("6_6x7tm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -4)
+
+[node name="Counter7" parent="Map" instance=ExtResource("6_6x7tm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3)
+
+[node name="CuttingStation" parent="Map" instance=ExtResource("7_etkws")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -2)
+
+[node name="SewingStation" parent="Map" instance=ExtResource("8_ax7bn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2)
+
+[node name="StuffingMachine" parent="Map" instance=ExtResource("9_1rk8a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -2)

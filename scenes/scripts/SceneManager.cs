@@ -22,7 +22,7 @@ public partial class SceneManager : Node {
 		Instance.entityRoot.AddChild(entity_instance);
 		entity_instance.GlobalPosition = position ?? Vector3.Zero;
 		entity_instance.GlobalRotationDegrees = rotation ?? Vector3.Zero;
-		GD.Print("Spawned entity: " + entity_instance.Name);
+		GD.Print("Spawned entity: " + entity_instance.Name + " at " + position + " with global pos " + entity_instance.GlobalPosition); ;
 		return entity_instance;
 	}
 

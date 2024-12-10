@@ -18,9 +18,9 @@ public abstract partial class SteamNetwork : Node {
     private Callback<LobbyChatMsg_t> lobbyChatMsg;
 
     // Steam Variables
+	protected CSteamID lobbyID;
     protected CSteamID clientID;
-
-
+    protected Dictionary<CSteamID, Node3D> networkPlayers = new Dictionary<CSteamID, Node3D>();
 
 	public override void _EnterTree() {
 		NativeLibrary.Load(Path.Join(AppContext.BaseDirectory, "steam_api64.dll"));
@@ -43,26 +43,18 @@ public abstract partial class SteamNetwork : Node {
         lobbyChatMsg = Callback<LobbyChatMsg_t>.Create(OnLobbyChatMsg);
 	}
 
-    private void OnLobbyChatMsg(LobbyChatMsg_t param) {
-        CSteamID lobbyID = new CSteamID(){ m_SteamID = param.m_ulSteamIDLobby };
-        CSteamID userID = new CSteamID(){ m_SteamID = param.m_ulSteamIDUser };
-        int chatID = (int)param.m_iChatID;
-        byte[] data = new byte[4096];
-        SteamMatchmaking.GetLobbyChatEntry(lobbyID, chatID, out _, data, data.Length, out EChatEntryType type);
-        switch (type){
-            case EChatEntryType.k_EChatEntryTypeChatMsg:
-                OnLobbyUserMsg(lobbyID, userID, data);
-                break;
-        }
-
+    private void OnLobbyJoinRequested(GameLobbyJoinRequested_t param){
+        SteamMatchmaking.JoinLobby(param.m_steamIDLobby);
     }
 
     private void OnLobbyEnter(LobbyEnter_t param){
-        OnLobbyConnected(new CSteamID(){ m_SteamID = param.m_ulSteamIDLobby });
-    }
+        CSteamID lobbyID = new CSteamID(){ m_SteamID = param.m_ulSteamIDLobby };
+        OnLobbyConnected(lobbyID);
 
-    private void OnLobbyJoinRequested(GameLobbyJoinRequested_t param){
-        SteamMatchmaking.JoinLobby(param.m_steamIDLobby);
+        foreach (CSteamID member in GetLobbyMembers(lobbyID)) {
+			if (member == clientID) { continue; }
+			OnLobbyMemberConnected(lobbyID, member);
+		}
     }
 
     private void OnLobbyChatUpdate(LobbyChatUpdate_t param){
@@ -89,19 +81,62 @@ public abstract partial class SteamNetwork : Node {
         }
     }
 
+    private void OnLobbyChatMsg(LobbyChatMsg_t param) {
+        CSteamID lobbyID = new CSteamID(){ m_SteamID = param.m_ulSteamIDLobby };
+        CSteamID userID = new CSteamID(){ m_SteamID = param.m_ulSteamIDUser };
+        int chatID = (int)param.m_iChatID;
+        byte[] data = new byte[4096];
+        SteamMatchmaking.GetLobbyChatEntry(lobbyID, chatID, out _, data, data.Length, out EChatEntryType type);
+
+        switch (type){
+            case EChatEntryType.k_EChatEntryTypeChatMsg:
+                OnLobbyUserMsg(lobbyID, userID, data);
+                break;
+        }
+
+    }
+
+    private void OnLobbyUserMsg(CSteamID lobbyID, CSteamID userID, byte[] data){
+        NetworkPacket networkPacket = FromBytes<NetworkPacket>(data);
+        
+        switch (networkPacket.GetPacketType()){
+            case PacketType.PlayerInput:
+                OnLobbyPlayerInput(lobbyID, userID, new PlayerInputPacket(networkPacket.header, networkPacket.body));
+                break;
+            case PacketType.PlayerData:
+                OnLobbyPlayerData(lobbyID, userID, new PlayerDataPacket(networkPacket.header, networkPacket.body));
+                break;
+        }
+    }
+
+    protected T FromBytes<T>(byte[] packet) where T : NetworkPacket {
+        int headerLength = packet[0];
+        int bodyLength = packet[1];
+
+        byte[] header = new byte[headerLength];
+        byte[] body = new byte[bodyLength];
+
+        Array.Copy(packet, 2, header, 0, headerLength);
+        Array.Copy(packet, 2 + headerLength, body, 0, bodyLength);
+
+        NetworkPacket networkPacket = new NetworkPacket(header, body);
+        return (T)networkPacket;
+    }
+    
+
     private void DisconnectUser(CSteamID lobbyID, CSteamID userID){
-        if (userID == clientID)
-            OnLobbyDisconnected(lobbyID);
-        else
-            OnLobbyMemberDisconnected(lobbyID, userID);
+        if (userID == clientID) OnLobbyDisconnected(lobbyID);
+        else OnLobbyMemberDisconnected(lobbyID, userID);
     }
 
     private void OnLobbyDataUpdate(LobbyDataUpdate_t param){
-        
+
     }
 
-    protected void BroadcastLobbyData(CSteamID lobbyID, byte[] data){
-        SteamMatchmaking.SendLobbyChatMsg(lobbyID, data, data.Length);
+    protected void BroadcastLobbyData(CSteamID lobbyID, NetworkPacket networkPacket){
+        byte[] packet = networkPacket.ToBytes();
+        SteamMatchmaking.SendLobbyChatMsg(lobbyID, packet, packet.Length);
+
     }
 
     public override void _Process(double delta) {
@@ -118,6 +153,12 @@ public abstract partial class SteamNetwork : Node {
 		}
 	}
 
+    // Helper Functions
+    /// <summary>
+    /// Get the members of a lobby
+    /// </summary>
+    /// <param name="lobbyID"></param>
+    /// <returns>A list of steam ids</returns>
     protected List<CSteamID> GetLobbyMembers(CSteamID lobbyID){
         List<CSteamID> members = new List<CSteamID>();
         int count = SteamMatchmaking.GetNumLobbyMembers(lobbyID);
@@ -127,45 +168,12 @@ public abstract partial class SteamNetwork : Node {
         return members;   
     }
 
-
-    /// <summary>
-    /// Called when the lobby is connected
-    /// </summary>
-    /// <param name="lobbyID"></param>
-    protected virtual void OnLobbyConnected(CSteamID lobbyID){
-
-    }
-
-    /// <summary>
-    /// Called when the lobby is disconnected
-    /// </summary>
-    /// <param name="lobbyID"></param>
-    protected virtual void OnLobbyDisconnected(CSteamID lobbyID){
-
-    }
-
-    /// <summary>
-    /// Called when a member is connected to the lobby
-    /// </summary>
-    /// <param name="memberID"></param>
-    protected virtual void OnLobbyMemberConnected(CSteamID lobbyID, CSteamID memberID){
-
-    }
-
-    /// <summary>
-    /// Called when a member is disconnected from the lobby
-    /// </summary>
-    /// <param name="memberID"></param>
-    protected virtual void OnLobbyMemberDisconnected(CSteamID lobbyID, CSteamID memberID){
-
-    }
-
-    /// <summary>
-    /// Called when a user sends a message to the lobby
-    /// </summary>
-    /// <param name="userID"></param>
-    /// <param name="data"></param>
-    protected virtual void OnLobbyUserMsg(CSteamID lobbyID, CSteamID userID, byte[] data){
-
-    }
+    // Triggered Events
+    protected virtual void OnLobbyConnected(CSteamID lobbyID){}
+    protected virtual void OnLobbyDisconnected(CSteamID lobbyID){}
+    protected virtual void OnLobbyMemberConnected(CSteamID lobbyID, CSteamID memberID){}
+    protected virtual void OnLobbyMemberDisconnected(CSteamID lobbyID, CSteamID memberID){}
+    protected virtual void OnLobbyUserInput(CSteamID lobbyID, CSteamID userID, PlayerInputPacket playerInputPacket){}
+    protected virtual void OnLobbyPlayerData(CSteamID lobbyID, CSteamID userID, PlayerDataPacket playerDataPacket){}
+    protected virtual void OnLobbyPlayerInput(CSteamID lobbyID, CSteamID userID, PlayerInputPacket playerInputPacket){}
 }

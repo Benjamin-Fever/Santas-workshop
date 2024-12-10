@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://32w66goxga3l"]
+[gd_scene load_steps=6 format=3 uid="uid://32w66goxga3l"]
 
 [ext_resource type="Script" path="res://objects/components/Interactable.cs" id="1_wt4wy"]
 [ext_resource type="Script" path="res://objects/storage/scripts/StorageBehaviour.cs" id="2_ipfje"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_hau26"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y3745"]
+albedo_color = Color(0.606175, 0.289275, 0.169863, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8d3xt"]
 
@@ -16,6 +19,7 @@ script = ExtResource("1_wt4wy")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mesh = SubResource("BoxMesh_hau26")
+surface_material_override/0 = SubResource("StandardMaterial3D_y3745")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://vtdi35cdasm2"]
+[gd_scene load_steps=10 format=3 uid="uid://vtdi35cdasm2"]
 
 [ext_resource type="Script" path="res://objects/components/Interactable.cs" id="1_6sw1v"]
 [ext_resource type="Script" path="res://objects/components/Crafting.cs" id="2_ybwja"]
@@ -8,6 +8,9 @@
 [ext_resource type="Script" path="res://common/scripts/HeldItem.cs" id="6_3bx5f"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_qsnlw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eudyj"]
+albedo_color = Color(0.3, 0.3, 0.3, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a1f2g"]
 
@@ -36,6 +39,7 @@ script = ExtResource("6_3bx5f")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mesh = SubResource("BoxMesh_qsnlw")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_eudyj")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

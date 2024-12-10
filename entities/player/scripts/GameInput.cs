@@ -9,20 +9,20 @@ public partial class GameInput : Node {
 
 	public Vector2 GetMovementDirection(){
 		Vector2 direction = Input.GetVector("move_left", "move_right", "move_forward", "move_backward").Normalized();
+		// remove diagonal movement
+		if (direction.X != 0 && direction.Y != 0){
+			direction.X = 0;
+		}
 		return direction;
 	}
 
     public override void _UnhandledInput(InputEvent @event) {
         if (@event.IsActionPressed("interact")){
-			SteamManager.SendPlayerData(new SteamManager.PlayerInputData(){
-				inputType = SteamManager.PlayerInputData.InputType.Interact
-			});
+			SteamManager.SendPlayerData(new PlayerInputPacket(PlayerInputPacket.InputType.Interact));
 			EmitSignal(SignalName.InteractPressed);
 		}
 		else if (@event.IsActionPressed("action")){
-			SteamManager.SendPlayerData(new SteamManager.PlayerInputData(){
-				inputType = SteamManager.PlayerInputData.InputType.Action
-			});
+			SteamManager.SendPlayerData(new PlayerInputPacket(PlayerInputPacket.InputType.Action));
 			EmitSignal(SignalName.ActionPressed);
 		}
     }
@@ -31,10 +31,7 @@ public partial class GameInput : Node {
     public override void _Process(double delta) {
 		if (_prevDirection != GetMovementDirection()){
 			_prevDirection = GetMovementDirection();
-			SteamManager.SendPlayerData(new SteamManager.PlayerInputData(){
-				inputType = SteamManager.PlayerInputData.InputType.Move,
-				direction = _prevDirection
-			});
+			SteamManager.SendPlayerData(new PlayerInputPacket(PlayerInputPacket.InputType.Move, _prevDirection));
 			EmitSignal(SignalName.MoveDirection, _prevDirection);
 		}
     }

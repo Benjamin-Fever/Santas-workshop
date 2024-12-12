@@ -74,4 +74,8 @@ public partial class SteamManager : SteamNetwork {
 	public static void SendPlayerData(PlayerInputPacket playerInput) {
 		Instance.BroadcastLobbyData(Instance.lobbyID, playerInput);
 	}
+
+	public static void SendSyncData(Variant data){
+		
+	}
 }

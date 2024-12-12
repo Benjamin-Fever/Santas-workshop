@@ -1,11 +1,11 @@
 [gd_scene load_steps=20 format=3 uid="uid://2arge22hu2b0"]
 
+[ext_resource type="Script" path="res://addons/tool-inspector/nodes/ToolHelper3D.cs" id="2_4q837"]
 [ext_resource type="PackedScene" uid="uid://32w66goxga3l" path="res://objects/storage/storage.tscn" id="2_lek6n"]
 [ext_resource type="Resource" uid="uid://ceaustfygv2s2" path="res://items/fabric roll/fabric_roll_data.tres" id="3_jebc4"]
 [ext_resource type="Script" path="res://networking/scripts/SpawnPoint.cs" id="4_m0qtb"]
 [ext_resource type="Resource" uid="uid://fifbwqkiojx7" path="res://items/buttons/buttons.tres" id="5_6i6lk"]
 [ext_resource type="PackedScene" uid="uid://drj2a7prigaek" path="res://objects/counter/counter.tscn" id="6_6x7tm"]
-[ext_resource type="Script" path="res://common/scripts/ToolDisplayer.cs" id="6_63ppx"]
 [ext_resource type="PackedScene" uid="uid://bqnfvqe0h78hq" path="res://objects/cutting station/cutting_station.tscn" id="7_etkws"]
 [ext_resource type="PackedScene" uid="uid://ugqlwfxhkeey" path="res://objects/sewing station/sewing_station.tscn" id="8_ax7bn"]
 [ext_resource type="PackedScene" uid="uid://vtdi35cdasm2" path="res://objects/stuffing machine/stuffing_machine.tscn" id="9_1rk8a"]
@@ -62,16 +62,17 @@ current = true
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -6)
 script = ExtResource("4_m0qtb")
 
-[node name="Body" type="Node3D" parent="SpawnPoint"]
-script = ExtResource("6_63ppx")
+[node name="ToolHelper3D" type="Node3D" parent="SpawnPoint"]
+script = ExtResource("2_4q837")
+GameVisible = false
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SpawnPoint/Body"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SpawnPoint/ToolHelper3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_xbf2y")
 skeleton = NodePath("../../../../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_t2aa6")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="SpawnPoint/Body"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SpawnPoint/ToolHelper3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.669, -0.5)
 mesh = SubResource("BoxMesh_vilcf")
 skeleton = NodePath("../../../../..")

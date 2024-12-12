@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://ded34vcbchrby"]
+[gd_scene load_steps=12 format=3 uid="uid://ded34vcbchrby"]
 
 [ext_resource type="Script" path="res://entities/player/scripts/PlayerController.cs" id="1_fqtbc"]
+[ext_resource type="Script" path="res://common/scripts/Networking/NetworkSynchronizer.cs" id="1_t2un0"]
 [ext_resource type="Script" path="res://entities/player/scripts/GameInput.cs" id="2_webdf"]
 [ext_resource type="Script" path="res://entities/player/components/InteractionDetector.cs" id="3_1vylb"]
 [ext_resource type="Script" path="res://objects/components/Inventory.cs" id="3_fvbk5"]
 [ext_resource type="Script" path="res://common/scripts/HeldItem.cs" id="5_8q5e3"]
+[ext_resource type="Script" path="res://addons/tool-inspector/nodes/ToolHelper3D.cs" id="7_q2bgh"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_5ohbj"]
 
@@ -18,6 +20,9 @@ size = Vector3(0.475, 0.08, 0.22)
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 0
 platform_on_leave = 2
+
+[node name="NetworkSynchronizer" type="Node" parent="."]
+script = ExtResource("1_t2un0")
 
 [node name="PlayerController" type="Node" parent="." node_paths=PackedStringArray("characterBody", "interactionDetector")]
 script = ExtResource("1_fqtbc")
@@ -41,14 +46,15 @@ script = ExtResource("3_1vylb")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.8)
 script = ExtResource("5_8q5e3")
 
-[node name="Body" type="Node3D" parent="."]
+[node name="ToolHelper3D" type="Node3D" parent="."]
+script = ExtResource("7_q2bgh")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Body"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ToolHelper3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_fenxf")
 skeleton = NodePath("../..")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Body"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="ToolHelper3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.669, -0.5)
 mesh = SubResource("BoxMesh_0au85")
 skeleton = NodePath("../..")

@@ -5,6 +5,7 @@ using System;
 [GlobalClass, Tool]
 public partial class NetworkSynchronizer : ToolHelper {
     private bool _collapsed = false;
+
     private readonly Array<Variant.Type> _syncableTypes = new(){
         Variant.Type.String,
         Variant.Type.Int,
@@ -18,7 +19,7 @@ public partial class NetworkSynchronizer : ToolHelper {
         Variant.Type.Color,
         Variant.Type.Float
     };
-    
+
     public override bool _InspectorProperty(ToolEditorInspector inspector, Variant.Type type, string name, PropertyHint hintType, string hintString, PropertyUsageFlags usageFlags, bool wide) {
         if (name != "SyncedProperties") return false;
         // Header

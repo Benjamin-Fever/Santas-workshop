@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dxoa3ahho8cpg"]
+
+[node name="FriendsListItem" type="HBoxContainer"]
+
+[node name="HostName" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 2
+
+[node name="PlayerCount" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="JoinButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Join"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://vtdi35cdasm2"]
+[gd_scene load_steps=11 format=3 uid="uid://vtdi35cdasm2"]
 
 [ext_resource type="Script" path="res://objects/components/Interactable.cs" id="1_6sw1v"]
 [ext_resource type="Script" path="res://objects/components/Crafting.cs" id="2_ybwja"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://objects/components/Inventory.cs" id="4_ttg3w"]
 [ext_resource type="Script" path="res://objects/counter/scripts/CounterBehavour.cs" id="5_6fi1j"]
 [ext_resource type="Script" path="res://common/scripts/HeldItem.cs" id="6_3bx5f"]
+[ext_resource type="Script" path="res://networking/scripts/NetworkSynchronizer.cs" id="7_dxyqu"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_qsnlw"]
 
@@ -44,6 +45,10 @@ surface_material_override/0 = SubResource("StandardMaterial3D_eudyj")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_a1f2g")
+
+[node name="NetworkSynchronizer" type="Node" parent="." node_paths=PackedStringArray("RootNode")]
+script = ExtResource("7_dxyqu")
+RootNode = NodePath("..")
 
 [connection signal="OnActionPerfomed" from="Interactable" to="Crafting" method="Craft"]
 [connection signal="OnInteracted" from="Interactable" to="CounterBehaviour" method="OnInteracted"]

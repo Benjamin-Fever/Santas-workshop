@@ -1,21 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://c6snmuuaj8jhp"]
+[gd_scene load_steps=4 format=3 uid="uid://c6snmuuaj8jhp"]
 
-[ext_resource type="PackedScene" uid="uid://c0qmhfbt5hpdh" path="res://ui/main_menu/main_menu.tscn" id="2_fon76"]
-[ext_resource type="PackedScene" uid="uid://2arge22hu2b0" path="res://scenes/demo_scene.tscn" id="2_i8sm1"]
-[ext_resource type="PackedScene" uid="uid://ded34vcbchrby" path="res://entities/player/player.tscn" id="2_ip6vk"]
-[ext_resource type="Script" path="res://networking/scripts/SteamManager.cs" id="2_rq60g"]
+[ext_resource type="Script" path="res://common/scripts/steam/Steam.cs" id="1_bhdn0"]
 [ext_resource type="Script" path="res://scenes/scripts/SceneManager.cs" id="3_kme4u"]
-[ext_resource type="PackedScene" uid="uid://bqmobf6i0r2b3" path="res://networking/network_player.tscn" id="3_ngfog"]
+[ext_resource type="PackedScene" uid="uid://cxrigs27fmhr2" path="res://ui/main_menu/main_menu.tscn" id="3_xt1oh"]
 
 [node name="Main" type="Node"]
+
+[node name="Steam" type="Node" parent="."]
+script = ExtResource("1_bhdn0")
 
 [node name="SceneManager" type="Node" parent="."]
 script = ExtResource("3_kme4u")
 
-[node name="MainMenu" parent="SceneManager" instance=ExtResource("2_fon76")]
-
-[node name="SteamManager" type="Node" parent="."]
-script = ExtResource("2_rq60g")
-playerScene = ExtResource("2_ip6vk")
-networkPlayerScene = ExtResource("3_ngfog")
-gameScene = ExtResource("2_i8sm1")
+[node name="MainMenu" parent="SceneManager" instance=ExtResource("3_xt1oh")]

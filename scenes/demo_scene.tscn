@@ -1,5 +1,6 @@
-[gd_scene load_steps=20 format=3 uid="uid://2arge22hu2b0"]
+[gd_scene load_steps=22 format=3 uid="uid://2arge22hu2b0"]
 
+[ext_resource type="Script" path="res://networking/scripts/NetworkSynchronizer.cs" id="1_34bpr"]
 [ext_resource type="Script" path="res://addons/tool-inspector/nodes/ToolHelper3D.cs" id="2_4q837"]
 [ext_resource type="PackedScene" uid="uid://32w66goxga3l" path="res://objects/storage/storage.tscn" id="2_lek6n"]
 [ext_resource type="Resource" uid="uid://ceaustfygv2s2" path="res://items/fabric roll/fabric_roll_data.tres" id="3_jebc4"]
@@ -9,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bqnfvqe0h78hq" path="res://objects/cutting station/cutting_station.tscn" id="7_etkws"]
 [ext_resource type="PackedScene" uid="uid://ugqlwfxhkeey" path="res://objects/sewing station/sewing_station.tscn" id="8_ax7bn"]
 [ext_resource type="PackedScene" uid="uid://vtdi35cdasm2" path="res://objects/stuffing machine/stuffing_machine.tscn" id="9_1rk8a"]
+[ext_resource type="PackedScene" uid="uid://ded34vcbchrby" path="res://entities/player/player.tscn" id="10_hid8h"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lss3f"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -50,6 +52,9 @@ size = Vector3(30, 0.005, 30)
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.849865, -0.306816, 0.428478, 3.55271e-15, 0.81305, 0.582194, -0.527, -0.494786, 0.690983, 0, 4.50065, 0)
 shadow_enabled = true
+
+[node name="NetworkSynchronizer" type="Node" parent="DirectionalLight3D"]
+script = ExtResource("1_34bpr")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_m0roc")
@@ -127,3 +132,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -2)
 
 [node name="StuffingMachine" parent="Map" instance=ExtResource("9_1rk8a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -2)
+
+[node name="Player" parent="." instance=ExtResource("10_hid8h")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -6)

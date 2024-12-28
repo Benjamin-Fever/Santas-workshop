@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://ded34vcbchrby"]
 
 [ext_resource type="Script" path="res://entities/player/scripts/PlayerController.cs" id="1_fqtbc"]
-[ext_resource type="Script" path="res://common/scripts/Networking/NetworkSynchronizer.cs" id="1_t2un0"]
+[ext_resource type="Script" path="res://networking/scripts/NetworkSynchronizer.cs" id="1_t2un0"]
 [ext_resource type="Script" path="res://entities/player/scripts/GameInput.cs" id="2_webdf"]
 [ext_resource type="Script" path="res://entities/player/components/InteractionDetector.cs" id="3_1vylb"]
 [ext_resource type="Script" path="res://objects/components/Inventory.cs" id="3_fvbk5"]

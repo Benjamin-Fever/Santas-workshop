@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ugqlwfxhkeey"]
+[gd_scene load_steps=13 format=3 uid="uid://ugqlwfxhkeey"]
 
 [ext_resource type="Script" path="res://objects/components/Interactable.cs" id="1_7brue"]
 [ext_resource type="Script" path="res://objects/components/Crafting.cs" id="2_1w3w2"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://objects/counter/scripts/CounterBehavour.cs" id="5_hacv0"]
 [ext_resource type="Resource" uid="uid://ddxcsfpu573bt" path="res://recipes/empty_teddy_recipe.tres" id="5_q41sa"]
 [ext_resource type="Script" path="res://common/scripts/HeldItem.cs" id="6_c1qji"]
+[ext_resource type="Script" path="res://networking/scripts/NetworkSynchronizer.cs" id="9_mh723"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_qsnlw"]
 
@@ -46,6 +47,10 @@ surface_material_override/0 = SubResource("StandardMaterial3D_8k8sd")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_a1f2g")
+
+[node name="NetworkSynchronizer" type="Node" parent="." node_paths=PackedStringArray("RootNode")]
+script = ExtResource("9_mh723")
+RootNode = NodePath("..")
 
 [connection signal="OnActionPerfomed" from="Interactable" to="Crafting" method="Craft"]
 [connection signal="OnInteracted" from="Interactable" to="CounterBehaviour" method="OnInteracted"]

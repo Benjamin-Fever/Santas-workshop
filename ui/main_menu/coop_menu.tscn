@@ -1,0 +1,166 @@
+[gd_scene load_steps=4 format=3 uid="uid://brxpelibcngko"]
+
+[ext_resource type="Script" path="res://ui/main_menu/scripts/CoopMenu.cs" id="1_300ka"]
+[ext_resource type="PackedScene" uid="uid://dxoa3ahho8cpg" path="res://ui/main_menu/friends_list_item.tscn" id="2_ku1ll"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4bo28"]
+bg_color = Color(0.105882, 0.105882, 0.105882, 0.94902)
+
+[node name="CoopMenu" type="Control" node_paths=PackedStringArray("_friendsList", "_invitePopup", "_inviteCodeInput")]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -490.0
+offset_top = -264.5
+offset_right = 490.0
+offset_bottom = 264.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_300ka")
+_friendsList = NodePath("TabContainer/Join/VBoxContainer/ScrollContainer/VBoxContainer/FriendsGameList")
+_invitePopup = NodePath("InviteCodePopup")
+_inviteCodeInput = NodePath("InviteCodePopup/MarginContainer/HBoxContainer/LineEdit")
+_friendListItemScene = ExtResource("2_ku1ll")
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 2
+offset_right = 980.0
+offset_bottom = 529.0
+size_flags_horizontal = 3
+current_tab = 0
+
+[node name="Join" type="MarginContainer" parent="TabContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Join"]
+layout_mode = 2
+
+[node name="InviteCodeButton" type="Button" parent="TabContainer/Join/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Enter Invite Code"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Join/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Join/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Header" type="HBoxContainer" parent="TabContainer/Join/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HostName" type="Label" parent="TabContainer/Join/VBoxContainer/ScrollContainer/VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Host Name"
+
+[node name="PlayerCount" type="Label" parent="TabContainer/Join/VBoxContainer/ScrollContainer/VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Player Count"
+
+[node name="Blank" type="Label" parent="TabContainer/Join/VBoxContainer/ScrollContainer/VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="FriendsGameList" type="VBoxContainer" parent="TabContainer/Join/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BackButton" type="Button" parent="TabContainer/Join/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Back"
+
+[node name="Host" type="MarginContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 10
+metadata/_tab_index = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Host"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Host/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="TabContainer/Host/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Host New Game"
+
+[node name="Button" type="Button" parent="TabContainer/Host/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "Back"
+
+[node name="InviteCodePopup" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 2
+offset_right = 983.0
+offset_bottom = 529.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_4bo28")
+
+[node name="MarginContainer" type="MarginContainer" parent="InviteCodePopup"]
+layout_mode = 2
+theme_override_constants/margin_left = 250
+theme_override_constants/margin_top = 150
+theme_override_constants/margin_right = 250
+theme_override_constants/margin_bottom = 150
+
+[node name="HBoxContainer" type="HBoxContainer" parent="InviteCodePopup/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="InviteCodePopup/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Invite Code: "
+
+[node name="LineEdit" type="LineEdit" parent="InviteCodePopup/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+placeholder_text = "Enter Code"
+expand_to_text_length = true
+
+[node name="Button" type="Button" parent="InviteCodePopup/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+text = "Join"
+
+[node name="Button" type="Button" parent="InviteCodePopup/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Back"
+
+[node name="RefreshTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[connection signal="pressed" from="TabContainer/Join/VBoxContainer/InviteCodeButton" to="." method="OnInviteButtonPressed"]
+[connection signal="pressed" from="TabContainer/Join/VBoxContainer/BackButton" to="." method="OnBackButtonPressed"]
+[connection signal="pressed" from="TabContainer/Host/VBoxContainer/VBoxContainer/Button" to="." method="OnHostNewGameButtonPressed"]
+[connection signal="pressed" from="TabContainer/Host/VBoxContainer/Button" to="." method="OnBackButtonPressed"]
+[connection signal="pressed" from="InviteCodePopup/MarginContainer/HBoxContainer/Button" to="." method="OnInviteJoinButtonPressed"]
+[connection signal="pressed" from="InviteCodePopup/MarginContainer/Button" to="." method="OnBackButtonPressed"]
+[connection signal="timeout" from="RefreshTimer" to="." method="OnRefreshTimerTimeout"]

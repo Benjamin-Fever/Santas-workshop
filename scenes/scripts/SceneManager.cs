@@ -30,9 +30,14 @@ public partial class SceneManager : Node {
 		return SpawnEntity<Node3D>(entity, position, rotation);
 	}
 
+	public static void ChangeScene(string scenePath) {
+		PackedScene scene = GD.Load<PackedScene>(scenePath);
+		ChangeScene(scene);
+	}
+
 	public static void ChangeScene(PackedScene scene) {
-		Instance.currentScene?.Free();
-		Instance.currentScene = scene.Instantiate<Node3D>();
+		Instance.currentScene?.QueueFree();
+		Instance.currentScene = scene.Instantiate();
 		Instance.currentScene.Ready += Instance.OnSceneLoaded;
 		Instance.AddChild(Instance.currentScene);
 		

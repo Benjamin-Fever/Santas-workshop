@@ -1,7 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://bqmobf6i0r2b3"]
+[gd_scene load_steps=9 format=3 uid="uid://bqmobf6i0r2b3"]
 
 [ext_resource type="Script" path="res://entities/player/scripts/PlayerController.cs" id="1_5wqnh"]
-[ext_resource type="Script" path="res://networking/scripts/NetworkInput.cs" id="2_oqqgn"]
 [ext_resource type="Script" path="res://objects/components/Inventory.cs" id="3_7dbyd"]
 [ext_resource type="Script" path="res://entities/player/components/InteractionDetector.cs" id="4_1gt57"]
 [ext_resource type="Script" path="res://common/scripts/HeldItem.cs" id="5_k12op"]
@@ -24,9 +23,6 @@ script = ExtResource("1_5wqnh")
 characterBody = NodePath("..")
 interactionDetector = NodePath("../InteractionDetector")
 speed = 200.0
-
-[node name="NetworkInput" type="Node" parent="."]
-script = ExtResource("2_oqqgn")
 
 [node name="Inventory" type="Node" parent="."]
 script = ExtResource("3_7dbyd")
@@ -57,7 +53,4 @@ skeleton = NodePath("../..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_02fgf")
 
-[connection signal="ActionPressed" from="NetworkInput" to="PlayerController" method="OnAction"]
-[connection signal="InteractPressed" from="NetworkInput" to="PlayerController" method="OnInteract"]
-[connection signal="MoveDirection" from="NetworkInput" to="PlayerController" method="OnMoveDirection"]
 [connection signal="InventoryUpdated" from="Inventory" to="HeldItem" method="OnInventoryUpdated"]

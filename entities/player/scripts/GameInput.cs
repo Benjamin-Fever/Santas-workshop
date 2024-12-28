@@ -18,11 +18,9 @@ public partial class GameInput : Node {
 
     public override void _UnhandledInput(InputEvent @event) {
         if (@event.IsActionPressed("interact")){
-			SteamManager.SendPlayerData(new PlayerInputPacket(PlayerInputPacket.InputType.Interact));
 			EmitSignal(SignalName.InteractPressed);
 		}
 		else if (@event.IsActionPressed("action")){
-			SteamManager.SendPlayerData(new PlayerInputPacket(PlayerInputPacket.InputType.Action));
 			EmitSignal(SignalName.ActionPressed);
 		}
     }
@@ -31,7 +29,6 @@ public partial class GameInput : Node {
     public override void _Process(double delta) {
 		if (_prevDirection != GetMovementDirection()){
 			_prevDirection = GetMovementDirection();
-			SteamManager.SendPlayerData(new PlayerInputPacket(PlayerInputPacket.InputType.Move, _prevDirection));
 			EmitSignal(SignalName.MoveDirection, _prevDirection);
 		}
     }

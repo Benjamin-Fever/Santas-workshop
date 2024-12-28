@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://32w66goxga3l"]
+[gd_scene load_steps=7 format=3 uid="uid://32w66goxga3l"]
 
 [ext_resource type="Script" path="res://objects/components/Interactable.cs" id="1_wt4wy"]
 [ext_resource type="Script" path="res://objects/storage/scripts/StorageBehaviour.cs" id="2_ipfje"]
+[ext_resource type="Script" path="res://networking/scripts/NetworkSynchronizer.cs" id="3_rta2a"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_hau26"]
 
@@ -24,5 +25,9 @@ surface_material_override/0 = SubResource("StandardMaterial3D_y3745")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_8d3xt")
+
+[node name="NetworkSynchronizer" type="Node" parent="." node_paths=PackedStringArray("RootNode")]
+script = ExtResource("3_rta2a")
+RootNode = NodePath("..")
 
 [connection signal="OnInteracted" from="Interactable" to="." method="OnInteracted"]
